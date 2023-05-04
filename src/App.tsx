@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import LedgerLiveApi, { WindowMessageTransport } from "@ledgerhq/live-app-sdk";
-import logo from "./logo.svg";
+import type { Account, Currency } from "@ledgerhq/live-app-sdk";
+
+
 import "./App.css";
 
 const App = () => {
@@ -33,23 +35,30 @@ const App = () => {
 
     console.log({ result });
   };
+  // A very basic test call to request an account
+  const showXpubs = async () => {
+    if (!api.current) {
+      return;
+    }
+
+    const accounts = await api.current
+      .listAccounts({includeTokens:false})
+      .catch((error) => console.error({ error }));
+    const btcAccounts = (accounts as Account[]).filter((a:Account)=>a.currency=="bitcoin").map((a:Account)=>a.id.split(':')[3])
+    
+    console.log( {btcAccounts} );
+  };
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        
+        <h1>
+          Ordinals by Ledger
+        </h1>
+
         <button onClick={requestAccount}>Request account</button>
+        <button onClick={showXpubs}>ShowxPubs</button>
       </header>
     </div>
   );
