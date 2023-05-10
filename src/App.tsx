@@ -1,9 +1,13 @@
 import "./App.css";
-import { useXpubList } from "./hooks/useXpubList";
+import { useFetchOrdinalListFromAddressList } from "./hooks/useFetchOrdinalListFromAddressList";
+// import { useXpubList } from "./hooks/useXpubList";
 
 const App = () => {
-  const { data } = useXpubList();
-  console.log({ data });
+  const ordinal = useFetchOrdinalListFromAddressList()
+
+  console.log({ ordinal })
+
+
   return (
     <div className="App">
       <header className="App-header">
