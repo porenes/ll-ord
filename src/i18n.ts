@@ -5,7 +5,8 @@ const resources = {
   en: {
     translation: {
       title: "Ordinals by ledger",
-    }
+      inscription: "Inscription #{{inscription_number}}",
+    },
   },
 };
 

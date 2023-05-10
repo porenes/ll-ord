@@ -1,16 +1,28 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Setup } from "./Setup";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import "./i18n.ts";
+import "./i18n";
+import GalleryPage from "./pages/GalleryPage";
+import { OtherPage } from "./pages/OtherPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <GalleryPage />,
+  },
+  {
+    path: "other",
+    element: <OtherPage />
+  },
+]);
 
 ReactDOM.render(
   <React.StrictMode>
     <Setup>
-      <App />
+      <RouterProvider router={router} />
     </Setup>
   </React.StrictMode>,
   document.getElementById("root")
