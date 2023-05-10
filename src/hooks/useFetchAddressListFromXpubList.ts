@@ -32,7 +32,7 @@ export function useFetchAddressListFromXpubList(): string[] {
         console.log(addresses);
 
         // TODO: when endpoint exists for getting addresses from xpub
-        return addresses;
+        return Promise.resolve(addresses);
       },
       enabled: xPubListIsSuccess,
     })),
