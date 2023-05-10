@@ -1,3 +1,4 @@
+import { Text } from "@ledgerhq/react-ui";
 import "./App.css";
 import { useFetchOrdinalListFromAddressList } from "./hooks/useFetchOrdinalListFromAddressList";
 // import { useXpubList } from "./hooks/useXpubList";
@@ -11,7 +12,7 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Ordinals by Ledger</h1>
+        <Text variant="h1">hello</Text>
       </header>
     </div>
   );
