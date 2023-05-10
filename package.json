@@ -71,6 +71,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^12.2.2",
     "react-refresh": "^0.8.3",
+    "react-router-dom": "^6.11.1",
     "resolve": "1.18.1",
     "resolve-url-loader": "^3.1.2",
     "sass-loader": "^10.0.5",

@@ -7,18 +7,18 @@ import * as bitcoin from "bitcoinjs-lib";
 const bip32 = BIP32Factory(secp256k1);
 bitcoin.initEccLib(secp256k1);
 
+const xpubToTaprootAddress = (xpub: string, index: number) => {
+  const node = bip32.fromBase58(xpub);
+  const child = node.derive(0).derive(index);
+
+  const { address } = bitcoin.payments.p2tr({
+    internalPubkey: child.publicKey.slice(1, 33),
+  });
+  return address;
+};
+
 export function useFetchAddressListFromXpubList(): string[] {
   const { data: xpubList = [], isSuccess: xPubListIsSuccess } = useXpubList();
-  const xpubToTaprootAddress = (xpub: string, index: number) => {
-    const node = bip32.fromBase58(xpub);
-    const child = node.derive(0).derive(index);
-
-    const { address } = bitcoin.payments.p2tr({
-      internalPubkey: child.publicKey.slice(1, 33),
-    });
-    return address;
-  };
-
   const queries = useQueries({
     queries: xpubList.map((xpub) => ({
       queryKey: ["addresses", xpub],
@@ -39,9 +39,14 @@ export function useFetchAddressListFromXpubList(): string[] {
   if (!queries.length) return [];
   if (!isEveryQueryFetched(queries)) return [];
 
-  return queries.reduce<string[]>((prev, curr) => {
+  // TODO: remove
+  const x = queries.reduce<string[]>((prev, curr) => {
     if (!curr.data) return prev;
     // return unique only, will not be required when getting actual addresses
     return [...prev, ...curr.data];
   }, []);
+  return [
+    ...x,
+    "bc1psza5eq9erpvm47c3nnj7wtj9rk2hu6s5vqlvkdn9t05c7kzqzp9qretjhn",
+  ];
 }

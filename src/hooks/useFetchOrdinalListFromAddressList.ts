@@ -31,7 +31,6 @@ export type Inscription = z.infer<typeof InscriptionSchema>;
 
 export function useFetchOrdinalListFromAddressList(): Inscription[] {
   const addressList = useFetchAddressListFromXpubList();
-  // console.log(addressList);
 
   const queries = useQueries({
     queries: addressList.map((address) => ({
@@ -43,6 +42,10 @@ export function useFetchOrdinalListFromAddressList(): Inscription[] {
         const data: Inscription[] = await res.json();
 
         return data;
+      },
+      select(data: Inscription[]) {
+        // for now lets just get images.
+        return data.filter(d => d.content_type.includes('image'))
       },
     })),
   });
