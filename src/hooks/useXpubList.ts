@@ -9,8 +9,14 @@ export function useXpubList() {
     },
     {
       select(accounts) {
+        console.log("in" + accounts);
         return accounts
-          .filter((account) => account.currency === "bitcoin")
+          .filter(
+            (account) =>
+              // dirty filter for Taproot accounts
+              account.currency == "bitcoin" &&
+              account.address.startsWith("bc1p")
+          )
           .map((bitcoinAccount) => bitcoinAccount.id.split(":")[3]);
       },
     }

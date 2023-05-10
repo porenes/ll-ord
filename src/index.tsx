@@ -3,13 +3,15 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-// import { Setup } from "./Setup";
 
 import "./i18n.ts";
+import { Setup } from "./Setup";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Setup>
+      <App />
+    </Setup>
   </React.StrictMode>,
   document.getElementById("root")
 );
