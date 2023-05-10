@@ -1,13 +1,16 @@
 import { useQueries } from "@tanstack/react-query";
+import BIP32Factory from 'bip32';
+import * as ecc from 'tiny-secp256k1';
+import * as bitcoin from 'bitcoinjs-lib'
+
 import { isEveryQueryFetched } from "../utils/isEveryQueryFetched";
 import { useXpubList } from "./useXpubList";
-import secp256k1 from "@bitcoinerlab/secp256k1";
-import BIP32Factory from "bip32";
-import * as bitcoin from "bitcoinjs-lib";
-const bip32 = BIP32Factory(secp256k1);
-bitcoin.initEccLib(secp256k1);
 
-const xpubToTaprootAddress = (xpub: string, index: number) => {
+
+const bip32 = BIP32Factory(ecc);
+bitcoin.initEccLib(ecc);
+
+const  xpubToTaprootAddress  = (xpub: string, index: number) => {
   const node = bip32.fromBase58(xpub);
   const child = node.derive(0).derive(index);
 
@@ -23,7 +26,7 @@ export function useFetchAddressListFromXpubList(): string[] {
     queries: xpubList.map((xpub) => ({
       queryKey: ["addresses", xpub],
       queryFn: () => {
-        let addresses = [];
+        const addresses = [];
         for (let idx = 0; idx < 3; idx++) {
           const p2trAdd = xpubToTaprootAddress(xpub, idx);
           p2trAdd && addresses.push(p2trAdd);
