@@ -1,0 +1,27 @@
+{
+  "id": "ll-ord",
+  "name": "Ordinals by Ledger",
+  "url": "https://ll-ord.vercel.app/",
+  "homepageUrl": "https://developers.ledger.com/",
+  "icon": "",
+  "platform": "all",
+  "apiVersion": "0.0.1",
+  "manifestVersion": "1",
+  "branch": "debug",
+  "categories": ["tools"],
+  "currencies": "*",
+  "content": {
+    "shortDescription": {
+      "en": "Ordinals by Ledger"
+    },
+    "description": {
+      "en": "Ordinals by Ledger"
+    }
+  },
+  "permissions": [
+    {
+      "method": "*"
+    }
+  ],
+  "domains": ["https://*"]
+}
