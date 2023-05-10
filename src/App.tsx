@@ -5,6 +5,7 @@ import BIP32Factory from "bip32";
 import * as bitcoin from "bitcoinjs-lib";
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
+import { Setup } from "./Setup";
 
 // You must wrap a tiny-secp256k1 compatible implementation
 
@@ -96,12 +97,14 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Ordinals by Ledger</h1>
-        <button onClick={showXpubs}>ShowxPubs</button>
-      </header>
-    </div>
+    <Setup>
+      <div className="App">
+        <header className="App-header">
+          <h1>Ordinals by Ledger</h1>
+          <button onClick={showXpubs}>ShowxPubs</button>
+        </header>
+      </div>
+    </Setup>
   );
 };
 
