@@ -18,21 +18,22 @@ export function useFetchAddressListFromXpubList(): string[] {
     });
     return address;
   };
-  console.log(xpubList);
 
   const queries = useQueries({
     queries: xpubList.map((xpub) => ({
       queryKey: ["addresses", xpub],
       queryFn: () => {
         let addresses = [];
-        for (let idx = 0; idx < 3; idx++) {
+        for (let idx = 0; idx < 1; idx++) {
           const p2trAdd = xpubToTaprootAddress(xpub, idx);
           p2trAdd && addresses.push(p2trAdd);
         }
-        console.log(addresses);
 
         // TODO: when endpoint exists for getting addresses from xpub
-        return addresses;
+        return Promise.resolve([
+          ...addresses,
+          "bc1pdz5f22lvug2mu5zzfgc853dlq2038tqmhmaau8t78gdl4ecuuansf9834a",
+        ]);
       },
       enabled: xPubListIsSuccess,
     })),
