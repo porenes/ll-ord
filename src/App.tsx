@@ -1,20 +1,19 @@
 import { Text } from "@ledgerhq/react-ui";
-import { useXpubList } from "./hooks/useXpubList";
 import { useTranslation } from "react-i18next";
+import { useFetchOrdinalListFromAddressList } from "./hooks/useFetchOrdinalListFromAddressList";
 
 function App() {
-  const { data } = useXpubList();
-  const { t } = useTranslation()
+  const ordinals = useFetchOrdinalListFromAddressList();
+  const { t } = useTranslation();
   return (
     <div>
-      <Text>{t('title')}</Text>
+      <Text>{t("title")}</Text>
       <ul>
-        {data &&
-          data.map((xpub) => (
-            <li>
-              <Text key={xpub}>{xpub}</Text>
-            </li>
-          ))}
+        {ordinals.map((ord) => (
+          <li>
+            <Text key={ord.id}>{ord["content type"]}</Text>
+          </li>
+        ))}
       </ul>
     </div>
   );
