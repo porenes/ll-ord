@@ -1,17 +1,15 @@
-import { useEffect, useRef } from "react";
+import secp256k1 from "@bitcoinerlab/secp256k1";
+import type { Account } from "@ledgerhq/live-app-sdk";
 import LedgerLiveApi, { WindowMessageTransport } from "@ledgerhq/live-app-sdk";
-import type { Account, Currency } from "@ledgerhq/live-app-sdk";
-import * as bitcoin from 'bitcoinjs-lib';
+import BIP32Factory from "bip32";
+import * as bitcoin from "bitcoinjs-lib";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
-import BIP32Factory from 'bip32';
-import secp256k1 from '@bitcoinerlab/secp256k1';
 
 // You must wrap a tiny-secp256k1 compatible implementation
 
 const bip32 = BIP32Factory(secp256k1);
-bitcoin.initEccLib(secp256k1)
-
-
+bitcoin.initEccLib(secp256k1);
 
 const App = () => {
   // Define the Ledger Live API variable used to call api methods
@@ -31,6 +29,8 @@ const App = () => {
     };
   }, []);
 
+  const [inscriptions, setInscriptions] = useState<any>([]);
+
   // A very basic test call to request an account
   const requestAccount = async () => {
     if (!api.current) {
@@ -49,38 +49,56 @@ const App = () => {
       return;
     }
 
-    const accounts = await api.current
-      .listAccounts({includeTokens:false})
-      .catch((error) => console.error({ error }));
-    const btcAccounts = (accounts as Account[]).filter((a:Account)=>a.currency=="bitcoin").map((a:Account)=>a.id.split(':')[3])
-    const xpub = "xpub6CHVgXB6vN27QjwkAJd9KhXntjTX1BwmYW957gnqUs7SQGQTEy7fSRJgQfzu2npL8GmD8CjSC761kk4v91mBUdQCni8rAGiuXGaRj6HJgDz"
-    // const xpub = btcAccounts[2]
-    console.log( xpub );
     const xpubToTaprootAddress = (xpub: string, index: number) => {
       const node = bip32.fromBase58(xpub);
       const child = node.derive(0).derive(index);
-      console.log(child.publicKey.slice(1, 33));
-      
+
       const { address } = bitcoin.payments.p2tr({
         internalPubkey: child.publicKey.slice(1, 33),
       });
       return address;
     };
-    console.log(xpubToTaprootAddress(xpub, 0));
-    
+    const accounts = await api.current
+      .listAccounts({ includeTokens: false })
+      .catch((error) => console.error({ error }));
 
-    
+    const btcAccounts = (accounts as Account[])
+      .filter(
+        (a: Account) =>
+          // dirty filter for Taproot accounts
+          a.currency == "bitcoin" && a.address.startsWith("bc1p")
+      )
+      .map((a: Account) => a.id.split(":")[3]);
+    for (let iAcc = 0; iAcc < btcAccounts.length; iAcc++) {
+      const xpub = btcAccounts[iAcc];
+
+      // const xpub = "xpub6CHVgXB6vN27QjwkAJd9KhXntjTX1BwmYW957gnqUs7SQGQTEy7fSRJgQfzu2npL8GmD8CjSC761kk4v91mBUdQCni8rAGiuXGaRj6HJgDz"
+      // const xpub = btcAccounts[2]
+      // console.log(xpub);
+      for (let idx = 0; idx < 3; idx++) {
+        const p2trAdd = xpubToTaprootAddress(xpub, idx);
+        try {
+          const response = await fetch(`https://ordapi.xyz/address/${p2trAdd}`);
+          const responseJSON = await response.json();
+          if (responseJSON.length > 0) {
+            // console.log(contentType)
+            // return contentType;
+            console.log(p2trAdd);
+            console.log(responseJSON);
+            setInscriptions((oldInsc: any) => [...oldInsc, ...responseJSON]);
+          }
+        } catch (error) {
+          console.log(error);
+          // return error
+        }
+      }
+    }
   };
 
   return (
     <div className="App">
       <header className="App-header">
-        
-        <h1>
-          Ordinals by Ledger
-        </h1>
-
-        <button onClick={requestAccount}>Request account</button>
+        <h1>Ordinals by Ledger</h1>
         <button onClick={showXpubs}>ShowxPubs</button>
       </header>
     </div>
