@@ -31,7 +31,7 @@ export type Inscription = z.infer<typeof InscriptionSchema>;
 
 export function useFetchOrdinalListFromAddressList(): Inscription[] {
   const addressList = useFetchAddressListFromXpubList();
-  console.log(addressList);
+  // console.log(addressList);
 
   const queries = useQueries({
     queries: addressList.map((address) => ({
