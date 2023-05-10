@@ -44,10 +44,6 @@ export function useFetchOrdinalListFromAddressList(): Inscription[] {
 
         return data;
       },
-      select(data: Inscription[]) {
-        // for now just images
-        return data.filter((d) => d.content_type.includes("image"));
-      },
     })),
   });
 
