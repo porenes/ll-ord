@@ -1,6 +1,7 @@
+import { Grid, InfiniteLoader } from "@ledgerhq/react-ui";
+
 import { useFetchOrdinalListFromAddressList } from "../hooks/useFetchOrdinalListFromAddressList";
 import { Gallery } from "../components/Gallery";
-import { Grid, InfiniteLoader } from "@ledgerhq/react-ui";
 
 const GalleryPage = () => {
   const ordinals = useFetchOrdinalListFromAddressList();
