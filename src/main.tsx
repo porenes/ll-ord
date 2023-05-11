@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { Setup } from "./Setup.tsx";
 
@@ -37,9 +36,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <Setup>
-      <RouterProvider router={router} />
-    </Setup>
-  </React.StrictMode>
+  <Setup>
+    <RouterProvider router={router} />
+  </Setup>
 );
