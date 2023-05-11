@@ -1,20 +1,26 @@
-import { Grid, InfiniteLoader } from "@ledgerhq/react-ui";
-
 import { useFetchOrdinalListFromAddressList } from "../hooks/useFetchOrdinalListFromAddressList";
 import { Gallery } from "../components/Gallery";
+import { FadeIn } from "../components/FadeIn";
+import { Loading } from "../components/Loading";
+import { useTranslation } from "react-i18next";
 
 const GalleryPage = () => {
   const ordinals = useFetchOrdinalListFromAddressList();
+  const { t } = useTranslation()
 
-  if (!ordinals.length) {
+  if (!ordinals) {
     return (
-      <Grid columns={1} rows={1}>
-        <InfiniteLoader color="white" />
-      </Grid>
+      <Loading>
+        {t('fetching_inscriptions')}
+      </Loading>
     );
   }
 
-  return <Gallery ordinals={ordinals} />;
+  return (
+    <FadeIn>
+      <Gallery ordinals={ordinals} />;
+    </FadeIn>
+  );
 };
 
 export default GalleryPage;

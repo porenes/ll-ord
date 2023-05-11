@@ -1,0 +1,19 @@
+{
+  "go_back": "Go back",
+  "fetching_inscriptions": "Fetching  inscriptions...",
+  "appTitle": "Ordinals by ledger",
+  "inscription": "Inscription #{{inscription_number}}",
+  "fetching_json_content": "Fetching JSON content...",
+  "fetching_text_content": "Fetching text content...",
+  "fetching_inscription_no": "Fetching inscription #{{id}}",
+  "information": "Information",
+  "id": "ID:",
+  "owner": "Owner:",
+  "title": "Title:",
+  "content_length": "Content length:",
+  "content_type": "Content type:",
+  "genesis_height": "Genesis height:",
+  "genesis_fee": "Genesis fee:",
+  "location": "Location:",
+  "no_inscriptions_found": "No inscriptions were found in your wallets"
+}

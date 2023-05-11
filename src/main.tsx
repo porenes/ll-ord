@@ -5,7 +5,7 @@ import "./i18n.ts";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import GalleryPage from "./pages/GalleryPage.tsx";
 import { OtherPage } from "./pages/OtherPage.tsx";
-import { InscriptionPage } from "./pages/InscriptionPage.tsx";
+import { OrdinalPage } from "./pages/OrdinalPage";
 import { WithNavigation } from "./components/WithNavigation.tsx";
 
 const router = createBrowserRouter([
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
     path: "inscription/:address/:id",
     element: (
       <WithNavigation>
-        <InscriptionPage />
+        <OrdinalPage />
       </WithNavigation>
     ),
   },
