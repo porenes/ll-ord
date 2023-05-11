@@ -7,6 +7,15 @@ export function useTheme() {
 
   const parsed = Theme.safeParse(params.get("theme"));
 
-  if (!parsed.success) return "light";
+  if (!parsed.success) {
+    const themeFromStorage = Theme.safeParse(
+      window.localStorage.getItem("ledger-live-theme")
+    );
+    if (themeFromStorage.success) return themeFromStorage.data;
+    return "light";
+  }
+
+  window.localStorage.setItem("ledger-live-theme", parsed.data);
+
   return parsed.data;
 }

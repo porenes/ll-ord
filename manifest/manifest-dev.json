@@ -3,7 +3,7 @@
     "name": "Dev Ordinal App",
     "url": "http://localhost:5173",
     "homepageUrl": "https://developers.ledger.com/",
-    "icon": "",
+    "icon": "http://localhost:5173/ordinal.png",
     "platform": "all",
     "apiVersion": "0.0.1",
     "manifestVersion": "1",

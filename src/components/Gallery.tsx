@@ -1,30 +1,64 @@
-import { Grid, Tag } from "@ledgerhq/react-ui";
-import { Inscription } from "../hooks/useFetchOrdinalListFromAddressList";
+import { Grid, Tag, Text } from "@ledgerhq/react-ui";
+import { Ordinal } from "../hooks/useFetchOrdinalListFromAddressList";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { ImageContainer } from "./ImageContainer";
-import { OrdinalImage } from "./OrdinalImage";
+import { PreviewContainer } from "./PreviewContainer";
 import { OrdinalDescriptionContainer } from "./OrdinalDescriptionContainer";
+import { OrdinalPreview } from "./OrdinalPreview";
+import { styled } from "styled-components";
 
 type Props = {
-  ordinals: Inscription[];
+  ordinals: Ordinal[];
 };
+
+const CustomGrid = styled(Grid)(
+  () => `
+  grid-auto-rows: 300px;
+`
+);
+
+const CenterContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  gap: 16px;
+`;
 
 export const Gallery = ({ ordinals }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  if (!ordinals.length) {
+    return (
+      <CenterContainer>
+        <Container>
+          <Text variant="h1">
+            {t('no_inscriptions_found')}
+          </Text>
+        </Container>
+      </CenterContainer>
+    );
+  }
+
   return (
     <div>
-      <Grid m={16} columns={4} columnGap={12} rowGap={12}>
+      <CustomGrid m={16} columns={4} columnGap={12} rowGap={12}>
         {ordinals.map((ord) => (
-          <ImageContainer
+          <PreviewContainer
+            isClickable={true}
             key={ord.id}
             onClick={() => navigate(`inscription/${ord.address}/${ord.id}`)}
           >
-            <OrdinalImage
-              src={`https://ordinals.com/content/${ord.id}`}
-              alt=""
-            />
+            <OrdinalPreview ordinal={ord} />
             <OrdinalDescriptionContainer>
               <Tag active type="opacity">
                 {t("inscription", {
@@ -32,9 +66,9 @@ export const Gallery = ({ ordinals }: Props) => {
                 })}
               </Tag>
             </OrdinalDescriptionContainer>
-          </ImageContainer>
+          </PreviewContainer>
         ))}
-      </Grid>
+      </CustomGrid>
     </div>
   );
 };

@@ -3,7 +3,7 @@
   "name": "Ordinals by Ledger",
   "url": "https://ll-ord.vercel.app/",
   "homepageUrl": "https://developers.ledger.com/",
-  "icon": "",
+  "icon": "https://ll-ord.vercel.app/ordinal.png",
   "platform": "all",
   "apiVersion": "0.0.1",
   "manifestVersion": "1",

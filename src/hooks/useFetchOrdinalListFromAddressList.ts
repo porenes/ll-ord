@@ -3,7 +3,7 @@ import { useFetchAddressListFromXpubList } from "./useFetchAddressListFromXpubLi
 import * as z from "zod";
 import { isEveryQueryFetched } from "../utils/isEveryQueryFetched";
 
-export const InscriptionSchemaWithAddress = z.object({
+export const OrdinalSchemaWithAddress = z.object({
   address: z.string(),
   content: z.string(),
   "content length": z.string(),
@@ -28,9 +28,9 @@ export const InscriptionSchemaWithAddress = z.object({
   timestamp: z.string(),
   title: z.string(),
 });
-export type Inscription = z.infer<typeof InscriptionSchemaWithAddress>;
+export type Ordinal = z.infer<typeof OrdinalSchemaWithAddress>;
 
-export function useFetchOrdinalListFromAddressList(): Inscription[] {
+export function useFetchOrdinalListFromAddressList(): Ordinal[] {
   const addressList = useFetchAddressListFromXpubList();
 
   const queries = useQueries({
@@ -40,15 +40,10 @@ export function useFetchOrdinalListFromAddressList(): Inscription[] {
         const res = await fetch(`https://ordapi.xyz/address/${address}`);
         if (!res.ok) throw res;
 
-        const data: Omit<Inscription, 'address'>[] = await res.json();
+        const data: Omit<Ordinal, "address">[] = await res.json();
 
-        return data;
-      },
-      select(data: Omit<Inscription, 'address'>[]) {
-        // for now lets just get images.
-        return data
-          .filter((d) => d.content_type.includes("image"))
-          .map((i) => ({ ...i, address }));
+        const d = data.map((i) => ({ ...i, address }));
+        return d;
       },
     })),
   });
@@ -56,7 +51,7 @@ export function useFetchOrdinalListFromAddressList(): Inscription[] {
   if (!queries.length) return [];
   if (!isEveryQueryFetched(queries)) return [];
 
-  return queries.reduce<Inscription[]>((prev, curr) => {
+  return queries.reduce<Ordinal[]>((prev, curr) => {
     if (!curr.data) return prev;
     return [...prev, ...curr.data];
   }, []);
