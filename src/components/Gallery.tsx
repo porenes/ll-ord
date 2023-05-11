@@ -1,6 +1,5 @@
-import { Button, Grid, Tag, Text } from "@ledgerhq/react-ui";
+import { Grid, Tag } from "@ledgerhq/react-ui";
 import { Inscription } from "../hooks/useFetchOrdinalListFromAddressList";
-import { styled } from "styled-components";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { ImageContainer } from "./ImageContainer";
@@ -10,10 +9,6 @@ import { OrdinalDescriptionContainer } from "./OrdinalDescriptionContainer";
 type Props = {
   ordinals: Inscription[];
 };
-
-
-
-
 
 export const Gallery = ({ ordinals }: Props) => {
   const { t } = useTranslation();

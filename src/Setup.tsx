@@ -6,7 +6,7 @@ import { ledgerLiveClient } from "./clients/ledgerLiveClient";
 import { queryClient } from "./clients/queryClient";
 import { useTheme } from "./hooks/useTheme";
 
-export function Setup({ children }: PropsWithChildren<{}>) {
+export function Setup({ children }: PropsWithChildren) {
   const theme = useTheme();
   const [connected, setConnected] = useState<boolean>(false);
   useEffect(() => {
