@@ -1,4 +1,4 @@
-import { Button, Icon } from "@ledgerhq/react-ui";
+import { Button } from "@ledgerhq/react-ui";
 import { PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
 import { useMatch, useNavigate } from "react-router-dom";
