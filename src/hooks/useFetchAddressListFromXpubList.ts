@@ -26,7 +26,7 @@ export function useFetchAddressListFromXpubList(): string[] {
       queryKey: ["addresses", xpub],
       queryFn: () => {
         const addresses = [];
-        for (let idx = 0; idx < 6; idx++) {
+        for (let idx = 0; idx < 10; idx++) {
           const p2trAdd = xpubToTaprootAddress(xpub, idx);
           p2trAdd && addresses.push(p2trAdd);
         }
